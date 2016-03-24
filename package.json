@@ -1,23 +1,23 @@
 {
-  "name": "tb-validator",
-  "version": "2.0.0",
-  "description": "tb-validator",
+  "name": "vfw",
+  "version": "1.0.0",
+  "description": "validate framework",
   "main": "./lib/app.js",
   "scripts": {
     "test": "coffee -o lib -c src && NODE_ENV=mocha mocha"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/teambition/tb-validator.git"
+    "url": "https://github.com/lee715/vfw.git"
   },
   "keywords": [
-    "validator"
+    "validator,framework"
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/teambition/tb-validator/issues"
+    "url": "https://github.com/lee715/vfw/issues"
   },
-  "homepage": "https://github.com/teambition/tb-validator",
+  "homepage": "https://github.com/lee715/vfw",
   "dependencies": {
     "lodash": "^3.10.1"
   },
