@@ -1,18 +1,18 @@
 'use strict'
-/* before, after, describe, it */
-var V = require('../lib/app')
+/*global describe, it */
+var V = require('../js/app')
 require('./extend')
 var expect = require('should')
-var util = require('../lib/util')
+var util = require('../js/util')
 
 describe('Api', function () {
   it('get', function () {
     var handler = V.get('String')
-    expect(handler.check('String', 'as')).equal('as')
+    expect(handler.check('as', 'String')).equal(true)
   })
 
   it('type', function () {
-    expect(V.type('String', 'as')).equal('as')
+    expect(V.type('String', 'as')).equal(true)
     expect(V.type('Number', 'as')).equal(false)
   })
 
@@ -105,15 +105,13 @@ describe('Rule', function () {
   it('addition', function () {
     var rule = {
       a: 'String:required',
-      b: 'String:empty',
       c: 'String:null'
     }
     var ruleSet = V.parse(rule)
     expect(ruleSet.check({})[1][0].path).equal('a')
-    expect(ruleSet.check({a: 'a', b: []})[0]).equal(true)
     expect(ruleSet.check({a: 'a', c: null})[0]).equal(true)
     expect(ruleSet.check({a: null})[1][0].path).equal('a')
-    expect(ruleSet.check({a: ''})[1][0].path).equal('a')
+    expect(ruleSet.check({c: undefined})[1][0].path).equal('a')
   })
 
   it('expression', function () {

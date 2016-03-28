@@ -2,7 +2,7 @@
   "name": "vfw",
   "version": "1.0.0",
   "description": "validate framework",
-  "main": "./lib/app.js",
+  "main": "./js/app.js",
   "scripts": {
     "test": "coffee -o lib -c src && NODE_ENV=mocha mocha"
   },
