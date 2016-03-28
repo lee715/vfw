@@ -1,24 +1,56 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/Users/lilei/.nvm/versions/node/v4.2.1/bin/node',
 1 verbose cli   '/Users/lilei/.nvm/versions/node/v4.2.1/bin/npm',
-1 verbose cli   'publish',
-1 verbose cli   '--tag',
-1 verbose cli   'v1.1.0' ]
+1 verbose cli   'adduser' ]
 2 info using npm@2.14.7
 3 info using node@v4.2.1
-4 verbose publish [ '.' ]
-5 verbose stack Error: Tag name must not be a valid SemVer range: v1.1.0
-5 verbose stack     at EventEmitter.publish (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/lib/publish.js:41:14)
-5 verbose stack     at Object.commandCache.(anonymous function) (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/lib/npm.js:220:11)
-5 verbose stack     at EventEmitter.<anonymous> (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/bin/npm-cli.js:73:28)
-5 verbose stack     at doNTCallback0 (node.js:417:9)
-5 verbose stack     at process._tickCallback (node.js:346:13)
-6 verbose cwd /Users/lilei/Documents/github/vfw
-7 error Darwin 14.5.0
-8 error argv "/Users/lilei/.nvm/versions/node/v4.2.1/bin/node" "/Users/lilei/.nvm/versions/node/v4.2.1/bin/npm" "publish" "--tag" "v1.1.0"
-9 error node v4.2.1
-10 error npm  v2.14.7
-11 error Tag name must not be a valid SemVer range: v1.1.0
-12 error If you need help, you may report this error at:
-12 error     <https://github.com/npm/npm/issues>
-13 verbose exit [ 1, true ]
+4 verbose adduser before first PUT { _id: 'org.couchdb.user:lee715',
+4 verbose adduser   name: 'lee715',
+4 verbose adduser   password: 'XXXXX',
+4 verbose adduser   email: 'leegarrett0306@gmail.com',
+4 verbose adduser   type: 'user',
+4 verbose adduser   roles: [],
+4 verbose adduser   date: '2016-03-28T04:04:37.264Z' }
+5 verbose request uri https://registry.npmjs.org/-/user/org.couchdb.user:lee715
+6 verbose request new user, so can't send auth
+7 info attempt registry request try #1 at 12:04:37 PM
+8 verbose request id 227c45a28bc72548
+9 http request PUT https://registry.npmjs.org/-/user/org.couchdb.user:lee715
+10 http 400 https://registry.npmjs.org/-/user/org.couchdb.user:lee715
+11 verbose headers { 'content-type': 'application/json',
+11 verbose headers   'cache-control': 'max-age=300',
+11 verbose headers   'content-length': '57',
+11 verbose headers   'accept-ranges': 'bytes',
+11 verbose headers   date: 'Mon, 28 Mar 2016 04:02:51 GMT',
+11 verbose headers   via: '1.1 varnish',
+11 verbose headers   connection: 'keep-alive',
+11 verbose headers   'x-served-by': 'cache-sin6927-SIN',
+11 verbose headers   'x-cache': 'MISS',
+11 verbose headers   'x-cache-hits': '0',
+11 verbose headers   'x-timer': 'S1459137770.460209,VS0,VE790' }
+12 verbose request invalidating /Users/lilei/.npm/registry.npmjs.org/-/user/org.couchdb.user_3Alee715 on PUT
+13 verbose adduser back [ { [Error: Unknown error while authenticating : -/user/org.couchdb.user:lee715] statusCode: 400, code: 'E400' },
+13 verbose adduser   { ok: false, error: 'Unknown error while authenticating' },
+13 verbose adduser   '{"ok":false,"error":"Unknown error while authenticating"}' ]
+14 verbose stack Error: Unknown error while authenticating : -/user/org.couchdb.user:lee715
+14 verbose stack     at makeError (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+14 verbose stack     at CachingRegistryClient.<anonymous> (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+14 verbose stack     at Request._callback (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+14 verbose stack     at Request.self.callback (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/request/request.js:198:22)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at Request.emit (events.js:172:7)
+14 verbose stack     at Request.<anonymous> (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/request/request.js:1063:14)
+14 verbose stack     at emitOne (events.js:82:20)
+14 verbose stack     at Request.emit (events.js:169:7)
+14 verbose stack     at IncomingMessage.<anonymous> (/Users/lilei/.nvm/versions/node/v4.2.1/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+15 verbose statusCode 400
+16 verbose cwd /Users/lilei/Documents/github/vfw
+17 error Darwin 14.5.0
+18 error argv "/Users/lilei/.nvm/versions/node/v4.2.1/bin/node" "/Users/lilei/.nvm/versions/node/v4.2.1/bin/npm" "adduser"
+19 error node v4.2.1
+20 error npm  v2.14.7
+21 error code E400
+22 error Unknown error while authenticating : -/user/org.couchdb.user:lee715
+23 error If you need help, you may report this error at:
+23 error     <https://github.com/npm/npm/issues>
+24 verbose exit [ 1, true ]

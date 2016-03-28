@@ -69,6 +69,7 @@ Rule.prototype.finish = function () {
   if (this._finished) return this
   var logicChain = this._logicChain = []
   var paths = []
+  var self = this
   this._path.forEach(function (path) {
     if (path === '$array') {
       paths.push(path)
@@ -77,7 +78,7 @@ Rule.prototype.finish = function () {
       if (key) {
         logicChain.push(key)
       } else {
-        this.addAdditions(path.slice(1))
+        self.addAdditions(path.slice(1))
       }
     } else {
       paths.push(path)
