@@ -23,12 +23,9 @@ Rule.prototype.check = function (target) {
   var addi = this._addition
   var targ = _.resolvePath(this._path, target)
   if (!this._isMulti) targ = [targ]
-  var hasAddi = addi && !!Object.keys(addi).length
-  if (hasAddi) {
-    var rt = Addition.check(targ, addi)
-    if (rt !== Addition.RESULT.PASS) {
-      return !!rt
-    }
+  var rt = Addition.check(targ, addi)
+  if (rt !== Addition.RESULT.PASS) {
+    return !!rt
   }
   return this._hdl.check(targ, this._rule)
 }

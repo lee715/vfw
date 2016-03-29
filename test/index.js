@@ -112,6 +112,12 @@ describe('Rule', function () {
     expect(ruleSet.check({a: 'a', c: null})[0]).equal(true)
     expect(ruleSet.check({a: null})[1][0].path).equal('a')
     expect(ruleSet.check({c: undefined})[1][0].path).equal('a')
+    rule = {
+      a: 'String',
+      b: 'Number'
+    }
+    ruleSet = V.parse(rule)
+    expect(ruleSet.check({})[0]).equal(true)
   })
 
   it('expression', function () {
