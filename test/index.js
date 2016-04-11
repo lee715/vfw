@@ -70,6 +70,23 @@ describe('Api', function () {
     var rt = ruleSet.check({a: 'include'})
     expect(rt[0]).equal(true)
   })
+
+  it('extendAddition', function () {
+    V.extendAddition({
+      $empty: function (target, canEmpty, r) {
+        if (canEmpty && target === '') {
+          return r.VALID
+        } else if (!canEmpty && target === '') {
+          return r.UNVALID
+        } else {
+          return r.PASS
+        }
+      }
+    })
+    var ruleSet = V.parse({a: 'String:empty'})
+    var rt = ruleSet.check({a: ''})
+    expect(rt[0]).equal(true)
+  })
 })
 
 describe('Util', function () {

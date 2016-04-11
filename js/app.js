@@ -7,7 +7,7 @@ var _ = require('./util')
 var assert = require('assert')
 require('./extends/type')
 var $ = require('./extends/expression')
-require('./extends/addition')
+var addition = require('./extends/addition')
 
 var V = module.exports = {}
 
@@ -31,6 +31,10 @@ V.get = function (rule) {
 
 V.extendParser = function (fn) {
   Parser.add(fn)
+}
+
+V.extendAddition = function () {
+  addition.extend.apply(addition, arguments)
 }
 
 V.extend = function (type) {

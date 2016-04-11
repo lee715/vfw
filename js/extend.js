@@ -2,7 +2,6 @@
 var RuleType = require('./classes/ruletype')
 var type = require('./extends/type')
 var expression = require('./extends/expression')
-var addition = require('./extends/addition')
 var assert = require('assert')
 var Extends = []
 var TypeMap = {}
@@ -37,4 +36,3 @@ module.exports = {
 }
 module.exports.extend(type)
 module.exports.extend(expression)
-module.exports.extend(addition)
