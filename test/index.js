@@ -1,9 +1,9 @@
 'use strict'
 /*global describe, it */
-var V = require('../js/app')
+var V = require('../lib')
 require('./extend')
 var expect = require('should')
-var util = require('../js/util')
+var util = require('../lib/util')
 
 describe('Api', function () {
   it('get', function () {
@@ -14,6 +14,11 @@ describe('Api', function () {
   it('type', function () {
     expect(V.type('String', 'as')).equal(true)
     expect(V.type('Number', 'as')).equal(false)
+  })
+
+  it('$', function () {
+    expect(V.$('in', [1, 2], 1)).equal(true)
+    expect(V.$('in', [1, 2], 3)).equal(false)
   })
 
   it('expression', function () {
@@ -68,7 +73,7 @@ describe('Api', function () {
     })
     var ruleSet = V.parse({a: '#test'})
     var rt = ruleSet.check({a: 'include'})
-    expect(rt[0]).equal(true)
+    expect(rt).equal(true)
   })
 
   it('extendAddition', function () {
@@ -85,7 +90,7 @@ describe('Api', function () {
     })
     var ruleSet = V.parse({a: 'String:empty'})
     var rt = ruleSet.check({a: ''})
-    expect(rt[0]).equal(true)
+    expect(rt).equal(true)
   })
 })
 
@@ -115,8 +120,8 @@ describe('Rule', function () {
       }
     }
     var ruleSet = V.parse(rule)
-    expect(ruleSet.check({a: [[1, 2, 3, 4]]})[0]).equal(true)
-    expect(ruleSet.check({a: [[1, 2, 3, 'as']]})[0]).equal(false)
+    expect(ruleSet.check({a: [[1, 2, 3, 4]]})).equal(true)
+    expect(ruleSet.check({a: [[1, 2, 3, 'as']]})).equal(false)
   })
 
   it('addition', function () {
@@ -125,16 +130,16 @@ describe('Rule', function () {
       c: 'String:null'
     }
     var ruleSet = V.parse(rule)
-    expect(ruleSet.check({})[1][0].path).equal('a')
-    expect(ruleSet.check({a: 'a', c: null})[0]).equal(true)
-    expect(ruleSet.check({a: null})[1][0].path).equal('a')
-    expect(ruleSet.check({c: undefined})[1][0].path).equal('a')
+    expect(ruleSet.check({}, {withErrors: true})[1][0].path).equal('a')
+    expect(ruleSet.check({a: 'a', c: null})).equal(true)
+    expect(ruleSet.check({a: null}, {withErrors: true})[1][0].path).equal('a')
+    expect(ruleSet.check({c: undefined}, {withErrors: true})[1][0].path).equal('a')
     rule = {
       a: 'String',
       b: 'Number'
     }
     ruleSet = V.parse(rule)
-    expect(ruleSet.check({})[0]).equal(true)
+    expect(ruleSet.check({})).equal(true)
   })
 
   it('expression', function () {
@@ -148,8 +153,8 @@ describe('Rule', function () {
       }
     }
     var ruleSet = V.parse(rule)
-    expect(ruleSet.check({a: 1, b: 12})[0]).equal(true)
-    expect(ruleSet.check({a: 3, b: 1})[0]).equal(false)
+    expect(ruleSet.check({a: 1, b: 12})).equal(true)
+    expect(ruleSet.check({a: 3, b: 1})).equal(false)
   })
 
   it('logic', function () {
@@ -162,8 +167,8 @@ describe('Rule', function () {
       }
     }
     var ruleSet = V.parse(rule)
-    expect(ruleSet.check({a: 1, b: 1})[0]).equal(true)
-    expect(ruleSet.check({a: '12', b: 0})[0]).equal(true)
-    expect(ruleSet.check({a: 12, b: 0})[0]).equal(false)
+    expect(ruleSet.check({a: 1, b: 1})).equal(true)
+    expect(ruleSet.check({a: '12', b: 0})).equal(true)
+    expect(ruleSet.check({a: 12, b: 0})).equal(false)
   })
 })

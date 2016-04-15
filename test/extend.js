@@ -2,7 +2,7 @@
 ;(function () {
   var V, Validator, _, isArray, isFunction, isObject, isString, isUndefined, ref, validator
 
-  V = require('../js/app')
+  V = require('../lib')
 
   validator = require('validator')
 
