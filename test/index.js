@@ -19,6 +19,7 @@ describe('Api', function () {
   it('$', function () {
     expect(V.$('in', [1, 2], 1)).equal(true)
     expect(V.$('in', [1, 2], 3)).equal(false)
+    expect(V.$('type', 'Number', 3))
   })
 
   it('expression', function () {
@@ -44,6 +45,13 @@ describe('Api', function () {
     })
     expect(V.expression({$startWith: 'test'}, 'test1')).equal(true)
     expect(V.expression({$startWith: 'test'}, '1test')).equal(false)
+    // extend struct
+    V.extend('struct', 'User', {
+      a: 'Number:required',
+      b: 'String'
+    })
+    expect(V.struct('User', {a: 1, b: 'as'})).equal(true)
+    expect(V.struct('User', {b: 'as'})).equal(false)
   })
 
   it('include', function () {
@@ -61,23 +69,23 @@ describe('Api', function () {
   })
 
   it('extendParser', function () {
-    V.extendParser(function (rule, ruleSet, ruleIns) {
+    V.extendParser(function (rule, struct, ruleIns) {
       if (!(typeof rule === 'string' && rule.charAt(0) === '#')) return false
       rule = rule.slice(1)
       rule = 'is' + rule.charAt(0).toUpperCase() + rule.slice(1)
       var handler = V.get(rule)
       if (!handler) return false
       ruleIns.setHandler(handler, rule)
-      ruleSet.add(ruleIns)
+      struct.add(ruleIns)
       return true
     })
-    var ruleSet = V.parse({a: '#test'})
-    var rt = ruleSet.check({a: 'include'})
+    var struct = V.parse({a: '#test'})
+    var rt = struct.check({a: 'include'})
     expect(rt).equal(true)
   })
 
-  it('extendAddition', function () {
-    V.extendAddition({
+  it('Modifier', function () {
+    V.extend('modifier', {
       $empty: function (target, canEmpty, r) {
         if (canEmpty && target === '') {
           return r.VALID
@@ -88,10 +96,19 @@ describe('Api', function () {
         }
       }
     })
-    var ruleSet = V.parse({a: 'String:empty'})
-    var rt = ruleSet.check({a: ''})
+    var struct = V.parse({a: 'String:empty'})
+    var rt = struct.check({a: ''})
     expect(rt).equal(true)
   })
+
+  // it('struct', function () {
+  //   V.extend('struct', {
+  //     user: V.parse({
+  //       name: 'Word',
+
+//     })
+//   })
+// })
 })
 
 describe('Util', function () {
@@ -119,27 +136,27 @@ describe('Rule', function () {
         }
       }
     }
-    var ruleSet = V.parse(rule)
-    expect(ruleSet.check({a: [[1, 2, 3, 4]]})).equal(true)
-    expect(ruleSet.check({a: [[1, 2, 3, 'as']]})).equal(false)
+    var struct = V.parse(rule)
+    expect(struct.check({a: [[1, 2, 3, 4]]})).equal(true)
+    expect(struct.check({a: [[1, 2, 3, 'as']]})).equal(false)
   })
 
-  it('addition', function () {
+  it('struct', function () {
     var rule = {
       a: 'String:required',
       c: 'String:null'
     }
-    var ruleSet = V.parse(rule)
-    expect(ruleSet.check({}, {withErrors: true})[1][0].path).equal('a')
-    expect(ruleSet.check({a: 'a', c: null})).equal(true)
-    expect(ruleSet.check({a: null}, {withErrors: true})[1][0].path).equal('a')
-    expect(ruleSet.check({c: undefined}, {withErrors: true})[1][0].path).equal('a')
+    var struct = V.parse(rule)
+    expect(struct.check({}, {withErrors: true})[1][0].path).equal('a')
+    expect(struct.check({a: 'a', c: null})).equal(true)
+    expect(struct.check({a: null}, {withErrors: true})[1][0].path).equal('a')
+    expect(struct.check({c: undefined}, {withErrors: true})[1][0].path).equal('a')
     rule = {
       a: 'String',
       b: 'Number'
     }
-    ruleSet = V.parse(rule)
-    expect(ruleSet.check({})).equal(true)
+    struct = V.parse(rule)
+    expect(struct.check({})).equal(true)
   })
 
   it('expression', function () {
@@ -152,9 +169,9 @@ describe('Rule', function () {
         $eq: 12
       }
     }
-    var ruleSet = V.parse(rule)
-    expect(ruleSet.check({a: 1, b: 12})).equal(true)
-    expect(ruleSet.check({a: 3, b: 1})).equal(false)
+    var struct = V.parse(rule)
+    expect(struct.check({a: 1, b: 12})).equal(true)
+    expect(struct.check({a: 3, b: 1})).equal(false)
   })
 
   it('logic', function () {
@@ -166,9 +183,9 @@ describe('Rule', function () {
         }
       }
     }
-    var ruleSet = V.parse(rule)
-    expect(ruleSet.check({a: 1, b: 1})).equal(true)
-    expect(ruleSet.check({a: '12', b: 0})).equal(true)
-    expect(ruleSet.check({a: 12, b: 0})).equal(false)
+    var struct = V.parse(rule)
+    expect(struct.check({a: 1, b: 1})).equal(true)
+    expect(struct.check({a: '12', b: 0})).equal(true)
+    expect(struct.check({a: 12, b: 0})).equal(false)
   })
 })
