@@ -1,6 +1,6 @@
 Introduction
 ====================
-Validator Framework
+Validator Framework, write once and use anywhere.
 
 Install
 -------------------
@@ -104,3 +104,90 @@ vfw.struct('User', {name: 'asd_123', password: 'asd_as123'}) // => false
 vfw.struct('User', {password: 'ass123'}) // => false
 
 ```
+
+## API
+
+### vfw.type(Type, target)
+```js
+vfw.type('String', 'asd') // => true
+vfw.type('Number', 'asd') // => false
+```
+
+### vfw.express or vfw.$
+```js
+vfw.$('in', [1, 2], 1) // => true
+```
+
+### vfw.struct(StructName, target)
+```js
+vfw.struct('User', {user: 'lee', password: '123456'})
+```
+
+### vfw.extendRule(opts)
+- extend your own RuleType. type, expression, struct are all instanceof RuleType.
+```js
+vfw.extendRule({
+  // canHandle function must be rewrited to tell vfw what it can handle
+  canHandle: function (obj) {
+    return /^@/.test(obj)
+  },
+  name: 'custom'
+})
+// if name supported
+vfw.custom('@as', 12)
+// and you can write rule like this
+vfw.parse({
+  a: '@string'
+})
+```
+
+### vfw.extendParser(Function)
+```js
+// extend a new RuleType, the rule '#xxx' will be handled by isXxx
+// for example, #string will be handled by isString
+vfw.extendParser(function (rule, struct, ruleIns) {
+  // if this function cant handle the rule, return false, and this rule will handled by others
+  if (!(typeof rule === 'string' && rule.charAt(0) === '#')) return false
+  rule = rule.slice(1)
+  rule = 'is' + rule.charAt(0).toUpperCase() + rule.slice(1)
+  var handler = vfw.get(rule)
+  if (!handler) return false
+  ruleIns.setHandler(handler, rule)
+  struct.add(ruleIns)
+  return true
+})
+var _ = require('lodash')
+vfw.include('type', _)
+// use _.isPlainObject
+var struct = vfw.parse({a: '#PlainObject'})
+struct.check({a: {a: 1}}) // => true
+```
+
+### vfw.extend(type, extends)
+- type `String` name of RuleType, like 'type', 'expression'
+- extends `Object` the functions you want to extend
+```js
+vfw.extend('type', {
+  Money: function(){},
+  Url: function(){}
+})
+vfw.extend('expression', {
+  $lt: function(target, len){},
+  $startWith: function(target, char){}
+})
+// once extended, those rules can be used anywhere
+```
+
+### vfw.include(type, obj)
+- type `String` name of RuleType, like 'type', 'expression'
+- obj `Object`
+- you can include a lib like lodash, validator or others and use the functions they supported
+```js
+var _ = require('lodash')
+vfw.include('type', _)
+// use _.isPlainObject
+var struct = vfw.parse({a: '#PlainObject'})
+struct.check({a: {a: 1}}) // => true
+```
+
+###
