@@ -99,6 +99,12 @@ describe('Api', function () {
     var struct = V.parse({a: 'String:empty'})
     var rt = struct.check({a: ''})
     expect(rt).equal(true)
+    struct = V.parse({
+      a: 'String:required',
+      b: 'String:required'
+    })
+    rt = struct.check({a: 'asd'})
+    expect(rt).equal(false)
   })
 
   // it('struct', function () {
