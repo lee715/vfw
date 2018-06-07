@@ -85,17 +85,6 @@ describe('Api', function () {
   })
 
   it('Modifier', function () {
-    V.extend('modifier', {
-      $empty: function (target, canEmpty, r) {
-        if (canEmpty && target === '') {
-          return r.VALID
-        } else if (!canEmpty && target === '') {
-          return r.UNVALID
-        } else {
-          return r.PASS
-        }
-      }
-    })
     var struct = V.parse({a: 'String:empty'})
     var rt = struct.check({a: ''})
     expect(rt).equal(true)
@@ -104,6 +93,17 @@ describe('Api', function () {
       b: 'String:required'
     })
     rt = struct.check({a: 'asd'})
+    expect(rt).equal(false)
+    struct = V.parse({
+      a: {
+        $array: 'String'
+      }
+    })
+    rt = struct.check({a: ['str']})
+    expect(rt).equal(true)
+    rt = struct.check({a: []})
+    expect(rt).equal(true)
+    rt = struct.check({a: [1]})
     expect(rt).equal(false)
   })
 
